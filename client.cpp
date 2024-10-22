@@ -1,12 +1,9 @@
 #include <iostream>
 #include <fstream>
-#include <filesystem>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <cstring>
-
-namespace fs = std::filesystem;
 
 #define PORT 8080
 
