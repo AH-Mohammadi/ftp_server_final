@@ -1,12 +1,10 @@
 #include <iostream>
 #include <fstream>
-#include <filesystem>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
 #include <cstring>
-
-namespace fs = std::filesystem;
+#include <sys/stat.h> // For mkdir()
 
 #define PORT 8080
 
@@ -28,9 +26,9 @@ int main() {
     struct sockaddr_in address;
     int addrlen = sizeof(address);
 
-    // Ensure folder creation
-    fs::create_directories("upload_folder");
-    fs::create_directories("download_folder");
+    // Create directories for upload and download folders
+    mkdir("upload_folder", 0777);
+    mkdir("download_folder", 0777);
 
     // Creating socket
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
@@ -54,7 +52,7 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    // Accepting connection
+    // Accept connection
     if ((clientSocket = accept(server_fd, (struct sockaddr*)&address, (socklen_t*)&addrlen)) < 0) {
         perror("Accept failed");
         exit(EXIT_FAILURE);
